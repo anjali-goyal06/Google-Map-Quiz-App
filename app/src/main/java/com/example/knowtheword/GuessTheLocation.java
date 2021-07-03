@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class GuessTheLocation extends AppCompatActivity  implements OnMapReadyCa
     private GoogleMap mMap;
     ArrayList<String> countries;
     Button score;
+    TextView flag;
 
     TextView QuesTionText;
     Button []btn = new Button[4];
@@ -69,12 +71,14 @@ public class GuessTheLocation extends AppCompatActivity  implements OnMapReadyCa
 
     @SuppressLint("ResourceAsColor")
     int newQuestion(){
+        flag.setText("");
         currentQuesNum++;
         if(marker!=null)
         marker.remove();
 
         for(int i=0;i<4;i++){
             btn[i].setBackgroundColor(0x738b28);
+            btn[i].setTextColor(Color.rgb(0,0,0));
         }
 
         ArrayList<String> Options = new ArrayList<>();
@@ -145,14 +149,16 @@ Log.i("infooo",ansLatLang.latitude +" "+ansLatLang.longitude);
     @SuppressLint("ResourceAsColor")
     public void choosenOption(View v){
         Log.i("info = ","ans" + v.getTag());
-
+        btn[CorrectAns].setTextColor(Color.rgb(255,255,255));
         if(v.getTag().toString().equals(Integer.toString(CorrectAns))){
             correctChoosenAns++;
-            v.setBackgroundColor(R.color.correctOption);
-            for(int i=0;i<4;i++) if(i!=CorrectAns) btn[i].setBackgroundColor(R.color.wrongOption);
+            flag.setText("Correct");
+            v.setBackgroundColor(Color.rgb(21,27,87));
+        //    for(int i=0;i<4;i++) if(i!=CorrectAns) btn[i].setBackgroundColor(R.color.wrongOption);
         }else{
-            v.setBackgroundColor(R.color.wrongOption);
-            btn[CorrectAns].setBackgroundColor(R.color.correctOption);
+            flag.setText("Wrong");
+            btn[CorrectAns].setBackgroundColor(Color.rgb(21,27,87));
+            v.setBackgroundColor(Color.rgb(176,196,222));
         }
         score.setText(correctChoosenAns+"/"+NumOfQuestion);
     }
@@ -171,7 +177,7 @@ Log.i("infooo",ansLatLang.latitude +" "+ansLatLang.longitude);
         btn[1] = findViewById(R.id.button2);
         btn[2] = findViewById(R.id.button3);
         btn[3] = findViewById(R.id.button4);
-
+        flag = findViewById(R.id.flag);
         Intent intent = getIntent();
         NumOfQuestion = intent.getIntExtra("Number",10);
 
@@ -235,132 +241,3 @@ Log.i("infooo",ansLatLang.latitude +" "+ansLatLang.longitude);
 
 
 
-
-/*
-
-
- int Question(){
-        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-        double latitude;
-        int QuesCnt=0;
-        LatLng QuesOption = new LatLng(0,0);
-        String []QuesLocationOption = new String[4];
-        double longitude;
-        Random rand = new Random();
-        double rand_dub1 =0;
-        double rand_dub2 =0;
-        int cnt=1000;
-        Log.i("val =  outside", String.valueOf(rand_dub1) + " "+ rand_dub2);
-        while(cnt-- > 0){
-
-            if(QuesCnt==4) break;
-
-            while(true){
-                rand_dub1 = rand.nextDouble();
-                rand_dub2 = rand.nextDouble();
-                rand_dub1 *= 100;
-                rand_dub2 *=200;
-
-                if(rand_dub1 < 90 && rand_dub2< 180) {
-
-                    boolean b = rand.nextBoolean();
-                    if(b) rand_dub1 = -1*rand_dub1;
-
-                    b = rand.nextBoolean();
-                    if(b) rand_dub2 = -1*rand_dub2;
-
-                    latitude = rand_dub1;
-                    longitude = rand_dub2;
-                    break;
-                }
-            }
-            Log.i("val = ", String.valueOf(rand_dub1) + " "+ rand_dub2);
-
-            try {
-                List<Address> listaddress = geocoder.getFromLocation(latitude,longitude,1);
-                if(listaddress!=null && listaddress.size()>0){
-                    Log.i("infoo ", String.valueOf(listaddress.get(0)));
-
-                    if(listaddress.get(0).getCountryName()!=null){
-                        String temp = listaddress.get(0).getCountryName();
-                        boolean flag=true;
-                        for(String s : QuesLocationOption){
-                            if(s==temp) {
-                                flag = false;
-                                break;
-                            }
-                        }
-
-                        if(!flag) continue;
-
-                        QuesLocationOption[QuesCnt] = temp;
-
-                        Log.i("infoo","strin g === "+ QuesLocationOption[QuesCnt]);
-
-                        if(QuesCnt==0){
-                            QuesOption = new LatLng(latitude,longitude);
-                        }
-
-                        QuesCnt++;
-                    }else if(listaddress.get(0).getAddressLine(0)!=null){
-                        QuesLocationOption[QuesCnt] = listaddress.get(0).getAddressLine(0);
-                        Log.i("infoo","strin g === " + QuesLocationOption[QuesCnt]);
-                        QuesCnt++;
-                    }
-
-
-              //      mMap.addMarker(new MarkerOptions().position(new LatLng(latitude,longitude)).title(listaddress.get(0).toString()));
-
-                }else{
-                    Log.i("info","  prob");
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-                Log.e("err", "Question: " + e.getMessage() );
-            }
-
-        }
-
-        int ans = (rand.nextInt()%4+4)%4;
-
-        for(int i=0;i<4;i++){
-            if(i==ans){
-                mMap.addMarker(new MarkerOptions().position(QuesOption));
-            }
-            btn[i].setText(QuesLocationOption[i]);
-        }
-        return ans;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //   @SuppressLint("ResourceAsColor")
-    void choosenOption(View v){
-        Log.i("info inside ", "ans = ");
-//        CorrectAns = newQuestion();
-//
-//        if(v.getTag().toString().equals(CorrectAns)){
-//            v.setBackgroundColor(android.R.color.holo_green_dark);
-//        }else{
-//            v.setBackgroundColor(android.R.color.holo_red_dark);
-//            btn[CorrectAns].setBackgroundColor(android.R.color.holo_green_dark);
-//        }
-
-    }
-    }
-
-
- */

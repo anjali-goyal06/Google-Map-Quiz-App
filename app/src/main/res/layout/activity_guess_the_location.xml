@@ -119,5 +119,19 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/score"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/flag"
+        android:layout_width="142dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textSize="24dp"
+        android:textColor="@color/purple_500"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintStart_toEndOf="@+id/score"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

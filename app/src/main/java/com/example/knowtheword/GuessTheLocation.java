@@ -63,7 +63,7 @@ public class GuessTheLocation extends AppCompatActivity  implements OnMapReadyCa
                 intent.putExtra("Score", score.getText().toString());
                 startActivity(intent);
             }catch (Exception e){
-                Log.e("errree", "nextQuestion: " + e.getMessage() );
+                Log.e("error", "nextQuestion: " + e.getMessage() );
             }
         }
     }
@@ -99,11 +99,11 @@ public class GuessTheLocation extends AppCompatActivity  implements OnMapReadyCa
 
 
         for(String s : Options){
-            Log.i("infooo",s);
+            Log.i("info",s);
         }
 
         for(int i=0;i<NoOfOptions;i++){
-            Log.i("infoo","str = "+i);
+            Log.i("info","str = "+i);
             if(ans==i){
 
 
@@ -117,7 +117,7 @@ public class GuessTheLocation extends AppCompatActivity  implements OnMapReadyCa
                             ansLatLang = new LatLng(addressList.get(0).getLatitude(),addressList.get(0).getLongitude());
                             break;
                         }
-                        Log.i("infooo","while true");
+                        Log.i("info","while true");
                     }
 
 
@@ -129,9 +129,9 @@ public class GuessTheLocation extends AppCompatActivity  implements OnMapReadyCa
             }
         }
 
-Log.i("infooo",ansLatLang.latitude +" "+ansLatLang.longitude);
+Log.i("info",ansLatLang.latitude +" "+ansLatLang.longitude);
 
-        Log.i("info","mamp=== "+mMap);
+        Log.i("info","map=== "+mMap);
         if(mMap!=null) {
             marker =  mMap.addMarker(new MarkerOptions().position(ansLatLang));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(ansLatLang));
@@ -200,7 +200,7 @@ Log.i("infooo",ansLatLang.latitude +" "+ansLatLang.longitude);
                 String country = locale.getDisplayCountry();
                 if (country.trim().length()>0 && !countries.contains(country)) {
                     countries.add(country);
-                    Log.i("infoo download = ","countru = "+country);
+                    Log.i("info download = ","country = "+country);
                 }
             }
 
@@ -227,12 +227,12 @@ Log.i("infooo",ansLatLang.latitude +" "+ansLatLang.longitude);
                             this, R.raw.style_json));
 
             if (!success) {
-                Log.e("abcccc", "Style parsing failed.");
+                Log.e("info", "Style parsing failed.");
             }else{
-                Log.e("abcccc", "Style sucess");
+                Log.e("info", "Style success");
             }
         } catch (Resources.NotFoundException e) {
-            Log.e("abccc", "Can't find style. Error: ", e);
+            Log.e("info", "Can't find style. Error: ", e);
         }
 
     }

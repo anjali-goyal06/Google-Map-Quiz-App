@@ -23,7 +23,7 @@ public class ScoreSheet extends AppCompatActivity {
             String score = intent.getStringExtra("Score");
             scoreShow.setText(score);
         }catch (Exception e){
-            Log.e("errr", "onCreate: "+e.getMessage() );
+            Log.e("error", "onCreate: "+e.getMessage() );
         }
         Button tryAgain = findViewById(R.id.tryAgain);
         tryAgain.setOnClickListener(new View.OnClickListener() {
